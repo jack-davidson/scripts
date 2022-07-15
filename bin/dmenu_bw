@@ -1,0 +1,7 @@
+#!/bin/sh
+
+password=$(dmenu -p password: -nf "#2e3440" < /dev/null)
+items=$(echo $password | bw list items)
+logins=$(echo $items | jq -r '.[] | select(has("login"))')
+name=$(echo $logins | jq -r '.name' | dmenu)
+echo $logins | jq -r "select(.name==\"${name}\") | .login.password" | xclip -selection clipboard
