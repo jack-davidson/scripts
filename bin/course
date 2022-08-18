@@ -1,0 +1,11 @@
+#!/bin/bash
+
+declare -A courses
+
+while read -r course; do
+    name=$(cut -d' ' -f1<<<$course)
+    url=$(cut -d' ' -f2<<<$course)
+    courses[${name}]=${url}
+done <~/.config/courses
+
+qutebrowser "${courses[$(printf '%s\n' ${!courses[@]} | dmenu)]}"
